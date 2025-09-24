@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,47 +11,82 @@ namespace VS_Monopoly
     {
         private static int idCounter = 0;
 
-        public Property(string[] properties /*string aName, string aColour, string aOwner, int aPrice, int[] aRent*/)
+        public static List<Property> Setup(string[] properties)
         {
-            idCounter++;
+            List<Property> propertiesOut = new List<Property>();
+            string[] data;
+            string name;
+            string colour;
+            bool ownable;
+            bool isStation;
+            int price;
+            int[] rent = new int[7];
+
             foreach (string property in properties)
             {
-                string[] data = property.Split(',');
-                id = idCounter;
+                name = "";
+                colour = "";
+                ownable = false;
+                price = 0;
+                rent = new int[7] { 0, 0, 0, 0, 0, 0, 0 };
+                isStation = false;
+
+                data = property.Split(',');
+
                 name = data[0];
                 colour = data[1];
-                owner = "";
-                price = int.Parse(data[2]);
-                rent[0] = int.Parse(data[3]); // Rent
-                rent[1] = int.Parse(data[4]); // Rent with colour set
-                rent[2] = int.Parse(data[5]); // Rent with 1 house
-                rent[3] = int.Parse(data[6]); // Rent with 2 houses
-                rent[4] = int.Parse(data[7]); // Rent with 3 houses
-                rent[5] = int.Parse(data[8]); // Rent with 4 houses
-                rent[6] = int.Parse(data[9]); // Rent with hotel
+                ownable = bool.Parse(data[2]);
+                if (ownable)
+                {
+                    price = int.Parse(data[3]);
+                    rent[0] = int.Parse(data[4]); // Rent
+                    rent[1] = int.Parse(data[5]); // Rent with colour set
+                    rent[2] = int.Parse(data[6]); // Rent with 1 house
+                    rent[3] = int.Parse(data[7]); // Rent with 2 houses
+                    try
+                    {
+                        rent[4] = int.Parse(data[8]); // Rent with 3 houses
+                        rent[5] = int.Parse(data[9]); // Rent with 4 houses
+                        rent[6] = int.Parse(data[10]); // Rent with hotel
+                    }
+                    catch (IndexOutOfRangeException e)
+                    {
+                        isStation = true;
+                    }
 
+                }
+                else
+                {
+                    price = -1;
+                }
+                propertiesOut.Add(new Property(name, colour, ownable, price, rent));
             }
+            return propertiesOut;
 
-            //idCounter++;
-            //id = idCounter;
-            //name = aName;
-            //colour = aColour;
-            //owner = "";
-            //price = aPrice;
-            //rent = aRent;
         }
 
+        public Property(string aName, string aColour, bool aOwnable, int aPrice, int[] aRent)
+        {
+            idCounter++;
+            id = idCounter;
+            ownable = aOwnable;
+            name = aName;
+            colour = aColour;
+            price = aPrice;
+            rent = aRent;
+        }
 
-        public required int id;
-        public required string name;
-        public string colour;
-        private string owner;
+        public int id;
+        public string name;
+        public bool ownable = true;
+        public string colour = "";
+        private string owner = "";
         public string Owner
         {
             get { return owner; }
             set { owner = value; }
         }
         public int price;
-        public int[] rent = new int[4];
+        public int[] rent = new int[6];
     }
 }
