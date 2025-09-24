@@ -39,7 +39,7 @@
 |Pall  |                                                       |Mayfai|
 |Mall  |                                                       |      |
 +------+------+------+------+------+------+------+------+------+------+
-|V Jail|      |      |      |      |      |      |      |      |      |
-|i     |Penton|Euston|Chance|Angel,|KingsC|Income|Whitec|CChest|  GO  |
-|siting|Road  |Road  |  ??  |Isling|Stat. |Tax   |Road  |      |      |
+|      |      |      |      |      |      |      |      |      |      |
+| Jail |Penton|Euston|Chance|Angel,|KingsC|Income|Whitec|CChest|  GO  |
+|      |Road  |Road  |  ??  |Isling|Stat. |Tax   |Road  |      |      |
 +------+------+------+------+------+------+------+------+------+------+
