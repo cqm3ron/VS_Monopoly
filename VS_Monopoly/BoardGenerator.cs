@@ -11,8 +11,9 @@ namespace VS_Monopoly
     {
         public static void Generate()
         {
-            List<string> board = new List<string>();
+            List<Property> board = new List<Property>();
+            string[] properties = File.ReadAllLines("properties.csv");
 
-        }
+            }
     }
 }
