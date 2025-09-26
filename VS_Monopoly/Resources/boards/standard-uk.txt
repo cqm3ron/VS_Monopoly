@@ -4,15 +4,15 @@ Community Chest,None,FALSE
 Whitechapel Road,Brown,TRUE,60,4,8,20,60,180,320,450
 Income Tax,None,FALSE
 King's Cross Station,Station,TRUE,200
-The Angel Islington,Light Blue,TRUE,100,6,12,30,90,270,400,550
+Angel Islington,Light Blue,TRUE,100,6,12,30,90,270,400,550
 Chance,None,FALSE
 Euston Road,Light Blue,TRUE,100,6,12,30,90,270,400,550
 Pentonville Road,Light Blue,TRUE,120,8,16,40,100,300,450,600
 Jail,None,FALSE
 Pall Mall,Pink,TRUE,140,10,20,50,150,450,625,750
 Electric Company,Utility,TRUE,150,0,0,0,0,0,0,0
-Whitehall,Pink,TRUE,140,10,20,50,150,450,625,750
-Northumberland Avenue,Pink,TRUE,160,12,24,60,180,500,700,900
+White Hall,Pink,TRUE,140,10,20,50,150,450,625,750
+N'land Avenue,Pink,TRUE,160,12,24,60,180,500,700,900
 Marylebone Station,Station,TRUE,200
 Bow Street,Orange,TRUE,180,14,28,70,200,550,750,950
 Community Chest,None,FALSE

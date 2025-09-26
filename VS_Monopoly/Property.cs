@@ -97,13 +97,93 @@ namespace VS_Monopoly
         public string name;
         public bool ownable = true;
         public string colour = "";
-        private string owner = "";
-        public string Owner
+        private Player owner;
+        public Player Owner
         {
             get { return owner; }
             set { owner = value; }
         }
         public int price;
         public int[] rent = new int[6];
+
+        public void Actions(Player player)
+        {
+            if (name == "go")
+            {
+                // player.balance += 200; //do i need a method to increase balance? Don't think so but we shall see
+                // update: im silly cause apparently this only works if you LAND on go not if u pass it LOL
+            }
+            else if (name == "income tax")
+            {
+                // Pay £200 (add pay method so bankruptcy happens)
+            }
+            else if (name == "super tax")
+            {
+                // Pay £100 (add pay method so bankruptcy happens)
+            }
+            else if (name == "chance")
+            {
+                // Draw a chance card (ughhhhhhhhhhhhh i have to program a bunch of possible chance cards in why did i pick this game to code)
+            }
+            else if (name == "community chest")
+            {
+                // Draw a community chest card (see above)
+            }
+            else if (name == "free parking")
+            {
+                // maybe the real free parking was the friends we made along the way
+            }
+            else if (name == "go to jail")
+            {
+                // Go to jail (criminal)
+            }
+            else if (name == "jail" && !player.inJail)
+            {
+                // Just visiting (wave at the criminals)
+            }
+            else if (name == "jail" && player.inJail)
+            {
+                // In jail (haha criminal get rekt)
+            }
+            else if (ownable && owner == null)
+            {
+                Console.SetCursorPosition(10, 26);
+                Console.Write($"Buy {name} for £{price}? You have £{player.balance}");
+                Console.SetCursorPosition(10, 27);
+                Console.CursorVisible = true;
+                Console.Write("Enter y or n: ");
+                string purchase = Console.ReadLine();
+                Console.CursorVisible = false; 
+                if (purchase.ToLower() == "y")
+                {
+                    Bank.Pay(price, player);
+                    player.properties.Add(id);
+                    player.properties.Sort(); //sort by value later? is that even necessary?
+                    Owner = player;
+                    Console.SetCursorPosition(10, 28);
+                    Console.WriteLine($"Player {player.Name} now owns {name}");
+                    Console.SetCursorPosition(10, 29);
+                    Console.WriteLine($"New balance: £{player.balance}");
+                }
+                else if (purchase.ToLower() == "n")
+                {
+
+                }
+                else
+                {
+                    Console.WriteLine("");
+                }
+
+                // auction? ill do that later its too complicated rn)
+            }
+            else if (ownable && owner != null && owner.Name != player.Name)
+            {
+                // Pay rent to owner (or not if theyre in jail or something)
+            }
+            else if (ownable && owner != null && owner.Name == player.Name)
+            {
+                // Do nothing but houses and hotels maybe soon idk they are confusing
+            }
+        }
     }
 }
