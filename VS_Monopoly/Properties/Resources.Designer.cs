@@ -61,23 +61,23 @@ namespace VS_Monopoly.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to GO,None,false
-        ///Old Kent Road,Brown,true,60,2,4,10,30,90,160,250
-        ///Community Chest,None,false
-        ///Whitechapel Road,Brown,true,60,4,8,20,60,180,320,450
-        ///Income Tax,None,false
-        ///King&apos;s Cross Station,Station,true,200,25,50,100,200
-        ///The Angel Islington,Light Blue,true,100,6,12,30,90,270,400,550
-        ///Chance,None,false
-        ///Euston Road,Light Blue,true,100,6,12,30,90,270,400,550
-        ///Pentonville Road,Light Blue,true,120,8,16,40,100,300,450,600
-        ///Jail,None,false
-        ///Pall Mall,Pink,true,140,10,20,50,150,450,625,750
-        ///Electric Company,Util [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to GO,None,FALSE
+        ///Old Kent Road,Brown,TRUE,60,2,4,10,30,90,160,250
+        ///Community Chest,None,FALSE
+        ///Whitechapel Road,Brown,TRUE,60,4,8,20,60,180,320,450
+        ///Income Tax,None,FALSE
+        ///King&apos;s Cross Station,Station,TRUE,200
+        ///The Angel Islington,Light Blue,TRUE,100,6,12,30,90,270,400,550
+        ///Chance,None,FALSE
+        ///Euston Road,Light Blue,TRUE,100,6,12,30,90,270,400,550
+        ///Pentonville Road,Light Blue,TRUE,120,8,16,40,100,300,450,600
+        ///Jail,None,FALSE
+        ///Pall Mall,Pink,TRUE,140,10,20,50,150,450,625,750
+        ///Electric Company,Utility,TRUE,150,0 [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string standard_uk {
             get {
-                return ResourceManager.GetString("standard-uk", resourceCulture);
+                return ResourceManager.GetString("standard_uk", resourceCulture);
             }
         }
     }

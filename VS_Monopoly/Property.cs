@@ -18,9 +18,8 @@ namespace VS_Monopoly
             string name;
             string colour;
             bool ownable;
-            bool isStation;
             int price;
-            int[] rent = new int[7];
+            int[] rent;
 
             foreach (string property in properties)
             {
@@ -29,7 +28,6 @@ namespace VS_Monopoly
                 ownable = false;
                 price = 0;
                 rent = new int[7] { 0, 0, 0, 0, 0, 0, 0 };
-                isStation = false;
 
                 data = property.Split(',');
 
@@ -39,28 +37,30 @@ namespace VS_Monopoly
                 if (ownable)
                 {
                     price = int.Parse(data[3]);
-                    rent[0] = int.Parse(data[4]); // Rent
-                    rent[1] = int.Parse(data[5]); // Rent with colour set
-                    rent[2] = int.Parse(data[6]); // Rent with 1 house
-                    rent[3] = int.Parse(data[7]); // Rent with 2 houses
                     try
                     {
+                        rent[0] = int.Parse(data[4]); // Rent
+                        rent[1] = int.Parse(data[5]); // Rent with colour set
+                        rent[2] = int.Parse(data[6]); // Rent with 1 house
+                        rent[3] = int.Parse(data[7]); // Rent with 2 houses
                         rent[4] = int.Parse(data[8]); // Rent with 3 houses
                         rent[5] = int.Parse(data[9]); // Rent with 4 houses
                         rent[6] = int.Parse(data[10]); // Rent with hotel
+                        propertiesOut.Add(new Property(name, colour, ownable, price, rent));
                     }
-                    catch (IndexOutOfRangeException e)
+                    catch (IndexOutOfRangeException)
                     {
-                        isStation = true;
+                        propertiesOut.Add(new Property(name, "station", true, price));
                     }
 
                 }
                 else
                 {
-                    price = -1;
+                    propertiesOut.Add(new Property(name, colour, false));
                 }
-                propertiesOut.Add(new Property(name, colour, ownable, price, rent));
             }
+
+
             return propertiesOut;
 
         }
@@ -74,6 +74,23 @@ namespace VS_Monopoly
             colour = aColour;
             price = aPrice;
             rent = aRent;
+        }
+        public Property(string aName, string aColour, bool aOwnable)
+        {
+            idCounter++;
+            id = idCounter;
+            ownable = aOwnable;
+            name = aName;
+            colour = aColour;
+        }
+        public Property(string aName, string aColour, bool aOwnable, int aPrice)
+        {
+            idCounter++;
+            id = idCounter;
+            ownable = aOwnable;
+            name = aName;
+            colour = aColour;
+            price = aPrice;
         }
 
         public int id;
