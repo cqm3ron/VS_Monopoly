@@ -20,6 +20,7 @@ namespace VS_Monopoly
 
         public static void Display(List<Property> propertyData, List<Player> players)
         {
+            Console.Clear();
             Console.WriteLine("+------+------+------+------+------+------+------+------+------+------+------+");
             for (int i = 20; i < 31; i++)
             {
@@ -120,16 +121,13 @@ namespace VS_Monopoly
             Console.Write(@"l___j___j \___/ l__j__j \___/ l__j    \___/ l_____jl____/"); Console.SetCursorPosition(10, 12);
             Console.ResetColor();
             Console.SetCursorPosition(0, 0);
-            Console.SetWindowSize(1, 1);
-            Console.SetBufferSize(78, 45);
-            Console.SetWindowSize(78, 45);
 
             Console.SetCursorPosition(10, 13);
             Console.WriteLine("Players:");
             for (int i = 0; i < players.Count; i++)
             {
                 Console.SetCursorPosition(10, 14 + i);
-                if (Player.TurnId == i + 1)
+                if (Player.turnId == i + 1)
                 {
                     Console.BackgroundColor = ConsoleColor.DarkGray;
                     Console.ForegroundColor = ConsoleColor.White;
@@ -161,7 +159,7 @@ namespace VS_Monopoly
                     propertyName[0] = "Go To";
                     propertyName[1] = "Jail";
                 }
-                if (property.name.ToLower().Contains("station"))
+                else if (property.name.ToLower().Contains("station"))
                 {
                     if (property.name.ToLower().Contains("street"))
                     {
@@ -169,13 +167,10 @@ namespace VS_Monopoly
                     }
                     propertyName[1] = "Stat.";
                 }
-                if (property.name.ToLower() == "jail")
+                else if (property.name.ToLower() == "jail")
                 {
-                    propertyName = new string[2];
-                    propertyName[0] = "  Jail";
-                    propertyName[1] = "V'TING";
                     Console.SetCursorPosition(Console.GetCursorPosition().Left, Console.GetCursorPosition().Top - 1);
-                    Console.Write(propertyName[0]);
+                    Console.Write("  Jail");
                     Console.SetCursorPosition(Console.GetCursorPosition().Left - 7, Console.GetCursorPosition().Top + 1);
                     Console.Write("|      ");
                     Console.SetCursorPosition(Console.GetCursorPosition().Left - 7, Console.GetCursorPosition().Top + 1);
@@ -185,18 +180,27 @@ namespace VS_Monopoly
                 }
                 else if (property.name.ToLower() == "go")
                 {
+                    propertyName = new string[2];
                     propertyName[0] = "  GO  ";
+                    propertyName[1] = "      ";
                 }
                 else if (property.name.ToLower() == "community chest")
                 {
+                    propertyName = new string[2];
                     propertyName[0] = "CChest";
-                    propertyName[1] = "";
+                    propertyName[1] = "      ";
+                }
+                else if (property.name.ToLower() == "chance")
+                {
+                    propertyName = new string[2];
+                    propertyName[0] = "Chance";
+                    propertyName[1] = "  ??  ";
                 }
 
-                while (propertyName[0].Length < 6)
-                {
-                    propertyName[0] += " ";
-                }
+                    while (propertyName[0].Length < 6)
+                    {
+                        propertyName[0] += " ";
+                    }
                 if (propertyName[0].Length > 6)
                 {
                     propertyName[0] = propertyName[0].Remove(6, propertyName[0].Length - 6);
@@ -235,7 +239,7 @@ namespace VS_Monopoly
 
         private static ConsoleColor SelectColour(Property property)
         {
-            switch (property.colour.ToLower())
+            switch (property.colour.ToLower()) 
             {
                 case "brown":
                     return ConsoleColor.DarkMagenta;

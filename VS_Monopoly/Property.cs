@@ -171,8 +171,11 @@ namespace VS_Monopoly
                 }
                 else
                 {
-                    Console.WriteLine("");
+                    
                 }
+                Console.SetCursorPosition(10, 30);
+                Console.Write("Press any key to continue.");
+                Console.ReadKey(true);
 
                 // auction? ill do that later its too complicated rn)
             }

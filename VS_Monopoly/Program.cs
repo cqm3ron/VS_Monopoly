@@ -7,7 +7,7 @@ namespace VS_Monopoly
     {
         static void Main(string[] args)
         {
-            try
+            //try
             {
                 Console.CursorVisible = false;
                 Console.WriteLine("How many players? (2-8)");
@@ -29,17 +29,23 @@ namespace VS_Monopoly
                     if (players[i].Name == "") players[i].Name = $"Player {i + 1}";
                 }
 
-                Console.Clear();
                 List<Property> propertyData = Board.Generate();
-                Board.Display(propertyData, players);
                 //eh so apparently you're supposed to have the highest roll go first but i can sort that out later (maybe if i can be bothered probably not but i probably should be cause like a levels and all that)
-                Player.Turn(propertyData, players);
+                Console.SetWindowSize(1, 1);
+                Console.SetBufferSize(78, 45);
+                Console.SetWindowSize(78, 45);
+                while (true)
+                {
+                    //Board.Display(propertyData, players);
+                    Player.Turn(propertyData, players);
+                }
+
             }
 
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine(ex.Message);
+            //}
 
         }
     }

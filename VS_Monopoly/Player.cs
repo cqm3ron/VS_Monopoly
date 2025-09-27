@@ -10,8 +10,8 @@ namespace VS_Monopoly
     internal class Player
     {
         public static int playerCount;
-        private static int turnId = 1;
-        public int currentPosition = 0; //current location on board (matches with property ID)
+        public static int turnId = 1;
+        public int currentPosition = 0; //current location on board (matches property ID)
         private string name;
         public int id;
         public List<int> properties; //store properties by ID
@@ -19,20 +19,14 @@ namespace VS_Monopoly
         public int consecutiveDoubles = 0;
         public bool inJail = false;
         public int jailTurns = 0;
-
-        public static int TurnId
+        public bool rolledDouble = false;
+        
+        public static void IncrementTurnID()
         {
-            get { return turnId; }
-            set
+            turnId++;
+            if (turnId > playerCount)
             {
-                if (turnId > Player.playerCount)
-                {
-                    turnId = 1;
-                }
-                else
-                {
-                    turnId = value;
-                }
+                turnId = 1;
             }
         }
 
@@ -61,15 +55,47 @@ namespace VS_Monopoly
     
         public static void Turn(List<Property> propertyData, List<Player> players)
         {
-            Console.Write($"Player {players[Player.TurnId - 1].Name}: Press 'R' to roll the dice: ");
-            while (Console.ReadKey(true).Key != ConsoleKey.R) ;
-            (int d1, int d2, int dTotal) = Board.Dice();
-            players[Player.TurnId - 1].currentPosition += dTotal;
-            Console.SetCursorPosition(10, 24);
-            Console.Write($"You rolled a {d1} & {d2}, giving you a total of {dTotal}.");
-            Console.SetCursorPosition(10, 25);
-            Console.Write($"This moved you to {propertyData[players[Player.TurnId - 1].currentPosition].name}");
-            propertyData[players[Player.TurnId - 1].currentPosition].Actions(players[Player.TurnId - 1]);
+            Player player = players[Player.turnId - 1];
+
+            while (true)
+            {
+                Board.Display(propertyData, players);
+                //Console.WriteLine(playerCount + " " + turnId);
+                player.rolledDouble = false;
+                Console.Write($"Player {player.Name}: Press 'R' to roll the dice: ");
+                while (Console.ReadKey(true).Key != ConsoleKey.R) ;
+                (int d1, int d2, int dTotal) = Board.Dice();
+                player.currentPosition += dTotal;
+                Console.SetCursorPosition(10, 24);
+                if (d1 == d2 && player.consecutiveDoubles < 3)
+                {
+                    player.rolledDouble = true;
+                    player.consecutiveDoubles++;
+                    Console.Write($"You rolled a double {d1}, giving you a total of {dTotal}.");
+                }
+                else if (d1 == d2 && player.consecutiveDoubles == 3)
+                {
+                    player.inJail = true;
+                    player.consecutiveDoubles = 0;
+                    // player.currentPosition = find jail? how to do that?
+                }
+                else
+                {
+                    Console.Write($"You rolled a {d1} & {d2}, giving you a total of {dTotal}.");
+                }
+                Console.SetCursorPosition(10, 25);
+                if (!player.inJail)
+                {
+                    Console.Write($"This moved you to {propertyData[player.currentPosition].name}");
+                    propertyData[player.currentPosition].Actions(player);
+                }
+                if (!player.rolledDouble)
+                {
+                    IncrementTurnID();
+                    break;
+                }
+            }
+
         }
     }
 }
