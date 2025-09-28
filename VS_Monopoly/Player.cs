@@ -29,7 +29,7 @@ namespace VS_Monopoly
                 turnId = 1;
             }
         }
-        public int CurrentPosition // shouldn't allow overflow
+        public int CurrentPosition
         {
             get { return currentPosition; }
             set

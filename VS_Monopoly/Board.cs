@@ -230,7 +230,7 @@ namespace VS_Monopoly
                     Console.BackgroundColor = ConsoleColor.DarkGray;
                 }
                 string dataToWrite = $"{players[i].Name} - £{players[i].balance} - {propertyData[players[i].CurrentPosition].name}";
-                
+                // add a thing so it adds spaces until x characters long to overwrite previous text but not dice
                 Console.Write(dataToWrite);
                 Console.WriteLine();
                 Console.ResetColor();
