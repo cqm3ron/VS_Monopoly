@@ -8,20 +8,40 @@ namespace VS_Monopoly
 {
     internal static class Bank
     {
-        public static void Pay(int amount, Player player)
+        public static void Pay(int amount, Player paying)
         {
             if (amount > 0)
             {
-                if (player.balance > amount)
+                if (paying.balance > amount)
                 {
-                    player.balance -= amount;
+                    paying.balance -= amount;
                 }
                 else
                 {
+                    // handle debt
                     throw new ArithmeticException("Not enough money!");
                 }
             }
         }
-
+        public static void Pay(int amount, Player recipient, Player paying)
+        {
+            if (amount > 0)
+            {
+                if (paying.balance > amount)
+                {
+                    paying.balance -= amount;
+                    recipient.balance += amount;
+                }
+                else
+                {
+                    // handle debt
+                    throw new ArithmeticException("Not enough money!");
+                }
+            }
+        }
+        public static void Receive(int amount, Player recipient)
+        {
+            recipient.balance += amount;
+        }
     }
 }

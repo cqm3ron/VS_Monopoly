@@ -10,149 +10,89 @@ namespace VS_Monopoly
 {
     internal class Board
     {
+        public static int propertyCount = 0;
+
         public static List<Property> Generate()
         {
             List<Property> propertyData;
             string[] properties = Resources.standard_uk.Split("\r\n", StringSplitOptions.RemoveEmptyEntries);
             propertyData = Property.Setup(properties);
+            propertyCount = propertyData.Count;
             return propertyData;
         }
 
         public static void Display(List<Property> propertyData, List<Player> players)
         {
+            if (OperatingSystem.IsWindows())
+            {
+                Console.SetWindowSize(80, 47);
+            }
+
             Console.Clear();
-            Console.WriteLine("+------+------+------+------+------+------+------+------+------+------+------+");
+
+            Console.SetCursorPosition(1, 1);
+
             for (int i = 20; i < 31; i++)
             {
-                DisplayProperty(propertyData[i]);
+                DisplayProperty(propertyData[i], players);
             }
-            LineTerminator();
-            Console.WriteLine("+------+------+------+------+------+------+------+------+------+------+------+");
-
-            DisplayProperty(propertyData[19]);
-            LineTerminator();
-            Console.SetCursorPosition(Console.GetCursorPosition().Left + 8, Console.GetCursorPosition().Top - 3);
-            Console.Write("                                                              ");
-            DisplayProperty(propertyData[31]);
-            LineTerminator();
-            Console.WriteLine("+------+                                                              +------+");
-
-            DisplayProperty(propertyData[18]);
-            LineTerminator();
-            Console.SetCursorPosition(Console.GetCursorPosition().Left + 8, Console.GetCursorPosition().Top - 3);
-            Console.Write("                                                              ");
-            DisplayProperty(propertyData[32]);
-            LineTerminator();
-            Console.WriteLine("+------+                                                              +------+");
-
-            DisplayProperty(propertyData[17]);
-            LineTerminator();
-            Console.SetCursorPosition(Console.GetCursorPosition().Left + 8, Console.GetCursorPosition().Top - 3);
-            Console.Write("                                                              ");
-            DisplayProperty(propertyData[33]);
-            LineTerminator();
-            Console.WriteLine("+------+                                                              +------+");
-
-            DisplayProperty(propertyData[16]);
-            LineTerminator();
-            Console.SetCursorPosition(Console.GetCursorPosition().Left + 8, Console.GetCursorPosition().Top - 3);
-            Console.Write("                                                              ");
-            DisplayProperty(propertyData[34]);
-            LineTerminator();
-            Console.WriteLine("+------+                                                              +------+");
-
-            DisplayProperty(propertyData[15]);
-            LineTerminator();
-            Console.SetCursorPosition(Console.GetCursorPosition().Left + 8, Console.GetCursorPosition().Top - 3);
-            Console.Write("                                                              ");
-            DisplayProperty(propertyData[35]);
-            LineTerminator();
-            Console.WriteLine("+------+                                                              +------+");
-
-            DisplayProperty(propertyData[14]);
-            LineTerminator();
-            Console.SetCursorPosition(Console.GetCursorPosition().Left + 8, Console.GetCursorPosition().Top - 3);
-            Console.Write("                                                              ");
-            DisplayProperty(propertyData[36]);
-            LineTerminator();
-            Console.WriteLine("+------+                                                              +------+");
-
-            DisplayProperty(propertyData[13]);
-            LineTerminator();
-            Console.SetCursorPosition(Console.GetCursorPosition().Left + 8, Console.GetCursorPosition().Top - 3);
-            Console.Write("                                                              ");
-            DisplayProperty(propertyData[37]);
-            LineTerminator();
-            Console.WriteLine("+------+                                                              +------+");
-
-            DisplayProperty(propertyData[12]);
-            LineTerminator();
-            Console.SetCursorPosition(Console.GetCursorPosition().Left + 8, Console.GetCursorPosition().Top - 3);
-            Console.Write("                                                              ");
-            DisplayProperty(propertyData[38]);
-            LineTerminator();
-            Console.WriteLine("+------+                                                              +------+");
-
-            DisplayProperty(propertyData[11]);
-            LineTerminator();
-            Console.SetCursorPosition(Console.GetCursorPosition().Left + 8, Console.GetCursorPosition().Top - 3);
-            Console.Write("                                                              ");
-            DisplayProperty(propertyData[39]);
-            LineTerminator();
-
-
-            Console.WriteLine("+------+------+------+------+------+------+------+------+------+------+------+");
-            for (int i = 10; i > 0; i--)
+            
+            for (int i = 19; i > 9; i--)
             {
-                DisplayProperty(propertyData[i]);
+                Console.SetCursorPosition(1, Console.GetCursorPosition().Top + 4);
+                DisplayProperty(propertyData[i], players);
             }
-            DisplayProperty(propertyData[0]);
-            LineTerminator();
-            Console.Write("+------+------+------+------+------+------+------+------+------+------+------+");
+            
+            Console.SetCursorPosition(71, 1);
+            for (int i = 31; i < 40; i++)
+            {
+                Console.SetCursorPosition(71, Console.GetCursorPosition().Top + 4);
+                DisplayProperty(propertyData[i], players);
+            }
 
-            Console.SetCursorPosition(10, 5);
+            Console.SetCursorPosition(8, 41);
+            for (int i = 9; i >= 0; i--)
+            {
+                DisplayProperty(propertyData[i], players);
+            }
+
+            Console.SetCursorPosition(11, 6);
             Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.Write(@" ___ ___   ___   ____    ___   ____    ___   _      __ __ "); Console.SetCursorPosition(10, 6);
-            Console.Write(@"|   T   T /   \ |    \  /   \ |    \  /   \ | T    |  T  T"); Console.SetCursorPosition(10, 7);
-            Console.Write(@"| _   _ |Y     Y|  _  YY     Y|  o  )Y     Y| |    |  |  |"); Console.SetCursorPosition(10, 8);
-            Console.Write(@"|  \_/  ||  O  ||  |  ||  O  ||   _/ |  O  || l___ |  ~  |"); Console.SetCursorPosition(10, 9);
-            Console.Write(@"|   |   ||     ||  |  ||     ||  |   |     ||     Tl___, |"); Console.SetCursorPosition(10, 10);
-            Console.Write(@"|   |   |l     !|  |  |l     !|  |   l     !|     ||     !"); Console.SetCursorPosition(10, 11);
-            Console.Write(@"l___j___j \___/ l__j__j \___/ l__j    \___/ l_____jl____/"); Console.SetCursorPosition(10, 12);
+            Console.Write(@" ___ ___   ___   ____    ___   ____    ___   _      __ __ "); Console.SetCursorPosition(11, 7);
+            Console.Write(@"|   T   | /   \ |    \  /   \ |    \  /   \ | |    |  T  |"); Console.SetCursorPosition(11, 8);
+            Console.Write(@"| _   _ |Y     Y|  _  YY     Y|  o  )Y     Y| |    |  |  |"); Console.SetCursorPosition(11, 9);
+            Console.Write(@"|  \_/  ||  O  ||  |  ||  O  ||   _/ |  O  || l___ |  ~  |"); Console.SetCursorPosition(11, 10);
+            Console.Write(@"|   |   ||     ||  |  ||     ||  |   |     ||     Tl___, |"); Console.SetCursorPosition(11, 11);
+            Console.Write(@"|   |   |:     !|  |  |l     !|  |   l     !|     ||     !"); Console.SetCursorPosition(11, 12);
+            Console.Write(@"l___j___| \___/ l__j__j \___/ l__j    \___/ l_____jl____/ "); Console.SetCursorPosition(11, 13);
             Console.ResetColor();
-            Console.SetCursorPosition(0, 0);
 
-            Console.SetCursorPosition(10, 13);
-            Console.WriteLine("Players:");
-            for (int i = 0; i < players.Count; i++)
+            DisplayPlayerInfo(propertyData, players);
+
+            if (OperatingSystem.IsWindows())
             {
-                Console.SetCursorPosition(10, 14 + i);
-                if (Player.turnId == i + 1)
-                {
-                    Console.BackgroundColor = ConsoleColor.DarkGray;
-                    Console.ForegroundColor = ConsoleColor.White;
-                }
-                Console.Write($"{players[i].Name} - £{players[i].balance}");
-                Console.WriteLine();
-                Console.ResetColor();
+                Console.SetBufferSize(80, 47);
+                Console.SetWindowSize(80, 47);
+                //Console.MoveBufferArea(0, 0, 80, 47, 1, 1);
             }
-
             Dice(true);
-            Console.SetCursorPosition(10, 23);
+            Console.SetCursorPosition(11, 25);
         }
 
-        private static void DisplayProperty(Property property)
+        private static void DisplayProperty(Property property, List<Player> players)
         {
             do
             {
-                Console.Write("|");
+                Console.Write("+------+");
+                Console.SetCursorPosition(Console.GetCursorPosition().Left - 8, Console.GetCursorPosition().Top + 1);
+                Console.Write('|');
                 Console.BackgroundColor = SelectColour(property);
                 Console.Write("      ");
                 Console.ResetColor();
-
-                Console.SetCursorPosition(Console.GetCursorPosition().Left - 7, Console.GetCursorPosition().Top + 1);
                 Console.Write('|');
-                string[] propertyName = new string[1];
+                Console.SetCursorPosition(Console.GetCursorPosition().Left - 8, Console.GetCursorPosition().Top + 1);
+                Console.Write('|');
+                string[] propertyName = new string[3];
                 propertyName = property.name.Split(' ');
                 if (property.name.ToLower() == "go to jail")
                 {
@@ -171,10 +111,15 @@ namespace VS_Monopoly
                 {
                     Console.SetCursorPosition(Console.GetCursorPosition().Left, Console.GetCursorPosition().Top - 1);
                     Console.Write("  Jail");
-                    Console.SetCursorPosition(Console.GetCursorPosition().Left - 7, Console.GetCursorPosition().Top + 1);
-                    Console.Write("|      ");
-                    Console.SetCursorPosition(Console.GetCursorPosition().Left - 7, Console.GetCursorPosition().Top + 1);
-                    Console.Write("|V'TING");
+                    Console.Write('|');
+                    Console.SetCursorPosition(Console.GetCursorPosition().Left - 8, Console.GetCursorPosition().Top + 1);
+                    Console.Write("|      |");
+                    Console.SetCursorPosition(Console.GetCursorPosition().Left - 8, Console.GetCursorPosition().Top + 1);
+                    Console.Write('|');
+                    Console.Write("V'TING");
+                    Console.Write('|');
+                    Console.SetCursorPosition(Console.GetCursorPosition().Left - 8, Console.GetCursorPosition().Top + 1);
+                    Console.Write("+------+");
                     Console.SetCursorPosition(Console.GetCursorPosition().Left, Console.GetCursorPosition().Top - 2);
                     break;
                 }
@@ -184,30 +129,37 @@ namespace VS_Monopoly
                     propertyName[0] = "  GO  ";
                     propertyName[1] = "      ";
                 }
-                else if (property.name.ToLower() == "community chest")
+                else if (property.name.ToLower().Contains("community chest"))
                 {
-                    propertyName = new string[2];
                     propertyName[0] = "CChest";
-                    propertyName[1] = "      ";
+                    propertyName[1] = "  #" + propertyName[2] + "  ";
                 }
-                else if (property.name.ToLower() == "chance")
+                else if (property.name.ToLower().Contains("chance"))
                 {
-                    propertyName = new string[2];
                     propertyName[0] = "Chance";
-                    propertyName[1] = "  ??  ";
+                    propertyName[1] = "  #" + propertyName[1] + "  ";
                 }
 
-                    while (propertyName[0].Length < 6)
-                    {
-                        propertyName[0] += " ";
-                    }
+                while (propertyName[0].Length < 6)
+                {
+                    propertyName[0] += " ";
+                }
+
                 if (propertyName[0].Length > 6)
                 {
                     propertyName[0] = propertyName[0].Remove(6, propertyName[0].Length - 6);
                 }
+
+                if (property.Owner != null)
+                {
+                    SelectTextColour(property);
+
+                }
                 Console.Write(propertyName[0]);
-                Console.SetCursorPosition(Console.GetCursorPosition().Left - 7, Console.GetCursorPosition().Top + 1);
-                Console.Write("|");
+                Console.ResetColor();
+                Console.Write('|');
+                Console.SetCursorPosition(Console.GetCursorPosition().Left - 8, Console.GetCursorPosition().Top + 1);
+                Console.Write('|');
                 if (propertyName.Length > 1)
                 {
                     while (propertyName[1].Length < 6)
@@ -218,23 +170,71 @@ namespace VS_Monopoly
                     {
                         propertyName[1] = propertyName[1].Remove(6, propertyName[1].Length - 6);
                     }
+
+                    if (property.Owner != null)
+                    {
+                        SelectTextColour(property);
+                    }
+
                     Console.Write(propertyName[1]);
+                    Console.ResetColor();
                 }
                 else
                 {
                     Console.Write("      ");
                 }
-                Console.SetCursorPosition(Console.GetCursorPosition().Left, Console.GetCursorPosition().Top - 2);
+                Console.Write('|');
+                Console.SetCursorPosition(Console.GetCursorPosition().Left - 8, Console.GetCursorPosition().Top + 1);
+                Console.Write("+------+");
+                Console.SetCursorPosition(Console.GetCursorPosition().Left - 1, Console.GetCursorPosition().Top - 4);
             } while (0 != 0);
         }
 
-        private static void LineTerminator()
+        public static void DisplayPlayerInfo(List<Property> propertyData, List<Player> players)
         {
-            Console.Write("|");
-            Console.SetCursorPosition(Console.GetCursorPosition().Left - 1, Console.GetCursorPosition().Top + 1);
-            Console.Write("|");
-            Console.SetCursorPosition(Console.GetCursorPosition().Left - 1, Console.GetCursorPosition().Top + 1);
-            Console.WriteLine("|");
+            Console.SetCursorPosition(11, 15);
+            Console.WriteLine("Players:");
+            for (int i = 0; i < players.Count; i++)
+            {
+                switch (i + 1)
+                {
+                    case 1:
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        break;
+                    case 2:
+                        Console.ForegroundColor = ConsoleColor.Blue;
+                        break;
+                    case 3:
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        break;
+                    case 4:
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        break;
+                    case 5:
+                        Console.ForegroundColor = ConsoleColor.Cyan;
+                        break;
+                    case 6:
+                        Console.ForegroundColor = ConsoleColor.Magenta;
+                        break;
+                    case 7:
+                        Console.ForegroundColor = ConsoleColor.DarkYellow;
+                        break;
+                    case 8:
+                        Console.ForegroundColor = ConsoleColor.DarkCyan;
+                        break;
+                }
+
+                Console.SetCursorPosition(11, 16 + i);
+                if (Player.turnId == i + 1)
+                {
+                    Console.BackgroundColor = ConsoleColor.DarkGray;
+                }
+                string dataToWrite = $"{players[i].Name} - £{players[i].balance} - {propertyData[players[i].CurrentPosition].name}";
+                
+                Console.Write(dataToWrite);
+                Console.WriteLine();
+                Console.ResetColor();
+            }
         }
 
         private static ConsoleColor SelectColour(Property property)
@@ -267,12 +267,80 @@ namespace VS_Monopoly
             }
         }
 
-        public static (int, int, int) Dice(bool empty = false)
+        private static void SelectTextColour(Property property)
         {
-            int dice1 = Random.Shared.Next(1, 7);
-            int dice2 = Random.Shared.Next(1, 7);
+            switch (property.Owner.id)
+            {
+                case 1:
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    break;
+                case 2:
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    break;
+                case 3:
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    break;
+                case 4:
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    break;
+                case 5:
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                    break;
+                case 6:
+                    Console.ForegroundColor = ConsoleColor.Magenta;
+                    break;
+                case 7:
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;
+                    break;
+                case 8:
+                    Console.ForegroundColor = ConsoleColor.DarkCyan;
+                    break;
+            }
+        }
+        public static void SelectTextColour(Player player)
+        {
+            switch (player.id)
+            {
+                case 1:
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    break;
+                case 2:
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    break;
+                case 3:
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    break;
+                case 4:
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    break;
+                case 5:
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                    break;
+                case 6:
+                    Console.ForegroundColor = ConsoleColor.Magenta;
+                    break;
+                case 7:
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;
+                    break;
+                case 8:
+                    Console.ForegroundColor = ConsoleColor.DarkCyan;
+                    break;
+            }
+        }
+
+        public static (int, int, int) Dice(bool empty = false, int dice1 = -1, int dice2 = -1)
+        {
+            if (dice1 == -1)
+            {
+                dice1 = Random.Shared.Next(1, 7);
+            }
+            if (dice2 == -1)
+            {
+                dice2 = Random.Shared.Next(1, 7);
+            }
+
             int total = dice1 + dice2;
-            Console.SetCursorPosition(36, 14);
+            Console.SetCursorPosition(41, 15);
 
             if (empty)
             {
@@ -413,5 +481,6 @@ namespace VS_Monopoly
             }
             return (dice1, dice2, total);
         }
+
     }
 }

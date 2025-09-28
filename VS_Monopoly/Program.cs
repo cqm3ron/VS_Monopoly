@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Net.Http.Headers;
+using System.Runtime.InteropServices;
 
 
 namespace VS_Monopoly
@@ -9,10 +10,32 @@ namespace VS_Monopoly
         {
             //try
             {
-                Console.CursorVisible = false;
-                Console.WriteLine("How many players? (2-8)");
                 Console.CursorVisible = true;
-                Player.playerCount = int.Parse(Console.ReadLine());
+                while (true)
+                {
+                    try
+                    {
+                        Console.WriteLine("How many players? (2-8)");
+                        Player.playerCount = int.Parse(Console.ReadLine());
+                        break;
+                    }
+                    catch (Exception ex)
+                    {
+                        if (ex.HResult == -2146233033)
+                        {
+                            Console.WriteLine("That wasn't a number. Press any key to try again.");
+                            Console.ReadKey(true);
+                            Console.Clear();
+                        }
+                        else
+                        {
+                            Console.WriteLine($"An unexpected error occurred: {ex.Message}");
+                            Console.WriteLine("Press any key to exit");
+                            Console.ReadKey();
+                            Environment.Exit(-1);
+                        }
+                    }
+                }
                 if (Player.playerCount < 2 || Player.playerCount > 8) throw new ArgumentOutOfRangeException("Number of players must be between 2 and 8.");
                 Console.CursorVisible = false;
 
@@ -26,14 +49,11 @@ namespace VS_Monopoly
                     Console.CursorVisible = true;
                     players[i].Name = Console.ReadLine();
                     Console.CursorVisible = false;
-                    if (players[i].Name == "") players[i].Name = $"Player {i + 1}";
+                    if (players[i].Name == "") players[i].Name = $"{i + 1}";
                 }
 
                 List<Property> propertyData = Board.Generate();
-                //eh so apparently you're supposed to have the highest roll go first but i can sort that out later (maybe if i can be bothered probably not but i probably should be cause like a levels and all that)
-                Console.SetWindowSize(1, 1);
-                Console.SetBufferSize(78, 45);
-                Console.SetWindowSize(78, 45);
+                //eh so apparently you're supposed to have the highest roll go first but i can sort that out later (maybe if i can be bothered probably not but i probably should be cause like a levels and all that
                 while (true)
                 {
                     //Board.Display(propertyData, players);

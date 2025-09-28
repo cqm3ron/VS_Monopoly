@@ -11,10 +11,10 @@ namespace VS_Monopoly
     {
         public static int playerCount;
         public static int turnId = 1;
-        public int currentPosition = 0; //current location on board (matches property ID)
+        private int currentPosition = 0; // matches property ID
         private string name;
         public int id;
-        public List<int> properties; //store properties by ID
+        public List<int> properties; // store properties by ID
         public double balance;
         public int consecutiveDoubles = 0;
         public bool inJail = false;
@@ -29,7 +29,22 @@ namespace VS_Monopoly
                 turnId = 1;
             }
         }
+        public int CurrentPosition // shouldn't allow overflow
+        {
+            get { return currentPosition; }
+            set
+            {
+                currentPosition = value;
 
+                if (currentPosition >= Board.propertyCount)
+                {
+                    currentPosition %= Board.propertyCount;
+                    Bank.Receive(200, this);
+                    Console.SetCursorPosition(11, 24);
+                    Console.WriteLine("You received £200 for passing GO!");
+                }
+            }
+        }
         public string Name
         {
             get { return name; }
@@ -52,21 +67,50 @@ namespace VS_Monopoly
             properties = new List<int>();
             balance = 0;
         }
-    
+
+        public bool OwnsColourSet(string colour, List<Property> properties)
+        {
+            int existingColours = 0;
+            int ownedColours = 0;
+            foreach (Property property in properties)
+            {
+                if (property.colour == colour && property.Owner == this)
+                {
+                    existingColours++;
+                    ownedColours++;
+                }
+                else if (property.colour == colour && property.Owner != this)
+                {
+                    return false;
+                }
+                else
+                {
+                    continue;
+                }
+            }
+            if (existingColours == ownedColours)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public static void Turn(List<Property> propertyData, List<Player> players)
         {
             Player player = players[Player.turnId - 1];
-
+            
             while (true)
             {
                 Board.Display(propertyData, players);
-                //Console.WriteLine(playerCount + " " + turnId);
                 player.rolledDouble = false;
                 Console.Write($"Player {player.Name}: Press 'R' to roll the dice: ");
                 while (Console.ReadKey(true).Key != ConsoleKey.R) ;
                 (int d1, int d2, int dTotal) = Board.Dice();
-                player.currentPosition += dTotal;
-                Console.SetCursorPosition(10, 24);
+                player.CurrentPosition += dTotal;
+                Console.SetCursorPosition(11, 25);
                 if (d1 == d2 && player.consecutiveDoubles < 3)
                 {
                     player.rolledDouble = true;
@@ -77,17 +121,19 @@ namespace VS_Monopoly
                 {
                     player.inJail = true;
                     player.consecutiveDoubles = 0;
-                    // player.currentPosition = find jail? how to do that?
+                    // player.CurrentPosition = find jail? how to do that?
                 }
                 else
                 {
                     Console.Write($"You rolled a {d1} & {d2}, giving you a total of {dTotal}.");
                 }
-                Console.SetCursorPosition(10, 25);
+                Console.SetCursorPosition(11, 26);
                 if (!player.inJail)
                 {
-                    Console.Write($"This moved you to {propertyData[player.currentPosition].name}");
-                    propertyData[player.currentPosition].Actions(player);
+                    Console.Write($"This moved you to {propertyData[player.CurrentPosition].name}");
+                    Board.DisplayPlayerInfo(propertyData, players);
+                    Board.Dice(dice1:d1, dice2:d2);
+                    propertyData[player.CurrentPosition].Actions(player);
                 }
                 if (!player.rolledDouble)
                 {
@@ -97,5 +143,6 @@ namespace VS_Monopoly
             }
 
         }
+
     }
 }

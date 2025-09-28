@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -10,6 +11,19 @@ namespace VS_Monopoly
     internal class Property
     {
         private static int idCounter = 0;
+        public int id;
+        public string name;
+        public bool ownable = true;
+        public string colour = "";
+        private Player owner;
+        public Player Owner
+        {
+            get { return owner; }
+            set { owner = value; }
+        }
+        public int price;
+        public int[] rent = new int[6];
+        public int rentLevel = 0;
 
         public static List<Property> Setup(string[] properties)
         {
@@ -93,25 +107,23 @@ namespace VS_Monopoly
             price = aPrice;
         }
 
-        public int id;
-        public string name;
-        public bool ownable = true;
-        public string colour = "";
-        private Player owner;
-        public Player Owner
+        public static void UpdateRent()
         {
-            get { return owner; }
-            set { owner = value; }
+            Console.SetCursorPosition(11, 26);
+            Console.Write("You landed on GO! Enjoy an extra £200.");
+            Console.SetCursorPosition(11, 27);
+            Console.Write("Press any key to continue.");
+            Console.ReadKey(true);
         }
-        public int price;
-        public int[] rent = new int[6];
 
         public void Actions(Player player)
         {
-            if (name == "go")
+            Console.SetCursorPosition(11, 27);
+            if (name.ToLower() == "go")
             {
-                // player.balance += 200; //do i need a method to increase balance? Don't think so but we shall see
-                // update: im silly cause apparently this only works if you LAND on go not if u pass it LOL
+                Console.Write("You receive another £200, for a total of £400.");
+                Bank.Receive(200, player);
+                Console.ReadKey(true);
             }
             else if (name == "income tax")
             {
@@ -147,41 +159,66 @@ namespace VS_Monopoly
             }
             else if (ownable && owner == null)
             {
-                Console.SetCursorPosition(10, 26);
                 Console.Write($"Buy {name} for £{price}? You have £{player.balance}");
-                Console.SetCursorPosition(10, 27);
+                Console.SetCursorPosition(11, 28);
                 Console.CursorVisible = true;
                 Console.Write("Enter y or n: ");
                 string purchase = Console.ReadLine();
-                Console.CursorVisible = false; 
-                if (purchase.ToLower() == "y")
+                Console.CursorVisible = false;
+                if (purchase.ToLower().Contains('y'))
                 {
                     Bank.Pay(price, player);
                     player.properties.Add(id);
                     player.properties.Sort(); //sort by value later? is that even necessary?
                     Owner = player;
-                    Console.SetCursorPosition(10, 28);
-                    Console.WriteLine($"Player {player.Name} now owns {name}");
-                    Console.SetCursorPosition(10, 29);
+                    Console.SetCursorPosition(11, 29);
+                    Console.Write("Player ");
+                    Board.SelectTextColour(player);
+                    Console.Write(player.Name);
+                    Console.ResetColor();
+                    Console.Write($" now owns {name}");
+
+                    Console.SetCursorPosition(11, 30);
                     Console.WriteLine($"New balance: £{player.balance}");
                 }
-                else if (purchase.ToLower() == "n")
+                else if (purchase.ToLower().Contains('n'))
                 {
-
+                    // Want to auction?
                 }
                 else
                 {
-                    
+                    // uhhhh what ok youre just bad at typing atp
                 }
-                Console.SetCursorPosition(10, 30);
+                Console.SetCursorPosition(11, 30);
                 Console.Write("Press any key to continue.");
                 Console.ReadKey(true);
-
-                // auction? ill do that later its too complicated rn)
             }
             else if (ownable && owner != null && owner.Name != player.Name)
             {
                 // Pay rent to owner (or not if theyre in jail or something)
+                if (!owner.inJail)
+                {
+                    Console.Write($"You landed on {owner.Name}'s property!");
+                    Console.SetCursorPosition(11, 28);
+                    Console.Write($"Since it is rent level {rentLevel}, you pay £{rent[rentLevel]}.");
+                        
+                    Bank.Pay(rent[rentLevel], owner, player);
+
+                    Console.SetCursorPosition(11, 29);
+                    Console.Write("New balances:");
+                    Console.SetCursorPosition(11, 30);
+                    Board.SelectTextColour(player);
+                    Console.Write(player.Name);
+                    Console.ResetColor();
+                    Console.Write($": £{player.balance}");
+                    Console.SetCursorPosition(11, 31);
+                    Board.SelectTextColour(owner);
+                    Console.Write(owner.Name);
+                    Console.ResetColor();
+                    Console.Write($": £{owner.balance}"); Console.SetCursorPosition(11, 32);
+                    Console.Write("Press any key to continue.");
+                    Console.ReadKey(true);
+                }
             }
             else if (ownable && owner != null && owner.Name == player.Name)
             {
