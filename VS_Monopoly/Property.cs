@@ -73,8 +73,6 @@ namespace VS_Monopoly
                     propertiesOut.Add(new Property(name, colour, false));
                 }
             }
-
-
             return propertiesOut;
 
         }
@@ -123,39 +121,85 @@ namespace VS_Monopoly
             {
                 Console.Write("You receive another £200, for a total of £400.");
                 Bank.Receive(200, player);
+                Console.SetCursorPosition(11, Console.GetCursorPosition().Top + 1);
+                Console.Write("Press any key to continue.");
                 Console.ReadKey(true);
             }
-            else if (name == "income tax")
+            else if (name.ToLower() == "income tax")
             {
+                Console.Write("Pay £200 income tax!");
+                Bank.Pay(200, player);
                 // Pay £200 (add pay method so bankruptcy happens)
+                Console.SetCursorPosition(11, Console.GetCursorPosition().Top + 1);
+                Console.Write("Press any key to continue.");
+                Console.ReadKey(true);
             }
-            else if (name == "super tax")
+            else if (name.ToLower() == "super tax")
             {
+                Console.Write("Pay £100 super tax!");
+                Bank.Pay(100, player);
                 // Pay £100 (add pay method so bankruptcy happens)
+                Console.SetCursorPosition(11, Console.GetCursorPosition().Top + 1);
+                Console.Write("Press any key to continue.");
+                Console.ReadKey(true);
             }
-            else if (name == "chance")
+            else if (name.ToLower().Contains("chance"))
             {
+                Console.Write("You landed on a chance space!");
+
                 // Draw a chance card (ughhhhhhhhhhhhh i have to program a bunch of possible chance cards in why did i pick this game to code)
+                
+                Console.SetCursorPosition(11, Console.GetCursorPosition().Top + 1);
+                Console.Write("Press any key to continue.");
+                Console.ReadKey(true);
             }
-            else if (name == "community chest")
+            else if (name.ToLower().Contains("community chest"))
             {
-                // Draw a community chest card (see above)
+                Console.Write("You landed on a community chest space!");
+
+                // Draw a community chest card (see chance card comment)
+
+                Console.SetCursorPosition(11, Console.GetCursorPosition().Top + 1);
+                Console.Write("Press any key to continue.");
+                Console.ReadKey(true);
             }
-            else if (name == "free parking")
+            else if (name.ToLower() == "free parking")
             {
+                Console.Write("Nothing happens!");
                 // maybe the real free parking was the friends we made along the way
+                Console.SetCursorPosition(11, Console.GetCursorPosition().Top + 1);
+                Console.Write("Press any key to continue.");
+                Console.ReadKey(true);
             }
-            else if (name == "go to jail")
+            else if (name.ToLower() == "go to jail")
             {
+                Console.Write("Go to jail!");
                 // Go to jail (criminal)
+                Console.SetCursorPosition(11, Console.GetCursorPosition().Top + 1);
+                Console.Write("Press any key to continue.");
+                Console.ReadKey(true);
             }
-            else if (name == "jail" && !player.inJail)
+            else if (name.ToLower() == "jail" && !player.inJail)
             {
-                // Just visiting (wave at the criminals)
+                Console.Write("You're just visiting, so nothing happens!");
+                // Just visiting (wave at the criminals)#
+                Console.SetCursorPosition(11, Console.GetCursorPosition().Top + 1);
+                Console.Write("Press any key to continue.");
+                Console.ReadKey(true);
             }
-            else if (name == "jail" && player.inJail)
+            else if (name.ToLower() == "jail" && player.inJail)
             {
+                Console.Write("You're in jail! You can get out by:");
+                Console.SetCursorPosition(11, Console.GetCursorPosition().Top + 1);
+                Console.Write("- rolling a double");
+                Console.SetCursorPosition(11, Console.GetCursorPosition().Top + 1);
+                Console.Write("- using a 'Get Out of Jail Free' card");
+                Console.SetCursorPosition(11, Console.GetCursorPosition().Top + 1);
+                Console.Write("- paying £50");
                 // In jail (haha criminal get rekt)
+                Console.SetCursorPosition(11, Console.GetCursorPosition().Top + 1);
+                Console.Write("Press any key to continue.");
+                Console.ReadKey(true);
             }
             else if (ownable && owner == null)
             {

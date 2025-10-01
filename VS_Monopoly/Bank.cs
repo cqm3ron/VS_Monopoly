@@ -14,7 +14,7 @@ namespace VS_Monopoly
             {
                 if (paying.balance > amount)
                 {
-                    paying.balance -= amount;
+                    paying.balance -= amount;   
                 }
                 else
                 {
